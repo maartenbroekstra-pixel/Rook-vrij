@@ -563,25 +563,40 @@ def format_life_gained(cigs_resisted):
         m = total_mins % 60
         return f"+{h}u {m}m"
 
-def send_push_notification(topic, title_ascii, message_utf8):
+def send_push_notification(topic, title_text, message_utf8):
     if not topic:
         return False, "Vul eerst een ntfy-kanaalnaam in."
     try:
-        safe_title = title_ascii.encode("ascii", "ignore").decode("ascii")
+        payload = json.dumps({
+            "topic": topic.strip(),
+            "title": title_text,
+            "message": message_utf8,
+            "priority": 5,
+            "tags": ["clinking_glasses", "no_smoking"],
+            "click": "https://vzzaqgdm.streamlit.app",
+            "actions": [
+                {
+                    "action": "view",
+                    "label": "Open Diner-Pot (+ EUR 0,65)",
+                    "url": "https://vzzaqgdm.streamlit.app"
+                }
+            ]
+        }).encode("utf-8")
+
         req = urllib.request.Request(
-            f"https://ntfy.sh/{topic.strip()}",
-            data=message_utf8.encode("utf-8"),
+            "https://ntfy.sh",
+            data=payload,
             headers={
-                "Title": safe_title,
-                "Priority": "high",
-                "Tags": "clinking_glasses,no_smoking"
+                "Content-Type": "application/json",
+                "User-Agent": "RookvrijApp/1.0"
             },
             method="POST"
         )
-        with urllib.request.urlopen(req, timeout=5) as response:
-            return response.status == 200, f"Melding verzonden naar '{topic}'!"
+        with urllib.request.urlopen(req, timeout=8) as response:
+            return response.status == 200, f"Melding succesvol verzonden naar '{topic.strip()}'!"
     except Exception as e:
         return False, f"Kon melding niet versturen: {e}"
+
 
 def get_user_stats(logs_list, user_filter=None):
     if not logs_list:
