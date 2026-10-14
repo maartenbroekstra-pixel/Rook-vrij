@@ -17,23 +17,19 @@ st.set_page_config(
 
 DATA_FILE = "rookvrij_v3_data.json"
 
-# --- PREMIUM MOBILE APP CSS (APPLE HEALTH / STOPTOBER DESIGN) ---
+# --- 100% LEESBARE LIGHT-LUXURY MOBILE CSS (GEEN DONKERE VLAKKEN MEER) ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
-    /* Forceer modern lettertype en rustige, heldere achtergrond */
-    html, body, [class*="css"], .stApp {
+    /* 1. Algemene app achtergrond: fris, helder en altijd donkere tekst */
+    html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        background-color: #F8FAFC !important;
+        background-color: #F4F7F6 !important;
         color: #0F172A !important;
     }
 
-    /* Zorg dat standaard Streamlit-elementen ALTIJD scherp leesbaar zijn */
-    .stApp p, .stApp span, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5 {
-        color: #0F172A;
-    }
-
+    /* Verberg standaard Streamlit balken */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
@@ -46,41 +42,97 @@ st.markdown("""
         max-width: 480px !important;
     }
 
-    /* Luxe Donkere Hero Card (Met geforceerde witte/gouden tekst) */
+    /* 2. Forceer ALLE tekst in de app standaard op diep donkerblauw/zwart */
+    p, span, label, h1, h2, h3, h4, h5, h6, li,
+    [data-testid="stMarkdownContainer"] p,
+    [data-testid="stWidgetLabel"] p,
+    [data-testid="stCaptionContainer"] p {
+        color: #0F172A !important;
+    }
+
+    /* 3. Forceer ALLE Streamlit invoervelden, dropdowns, expanders en sidebar naar WIT met DONKERE tekst
+       (voorkomt dat Dark Mode op een telefoon zwarte tekst op donkergrijze knoppen/menu's zet) */
+    section[data-testid="stSidebar"],
+    section[data-testid="stSidebar"] > div {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
+    }
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="base-input"],
+    div[data-baseweb="input"],
+    input {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
+        -webkit-text-fill-color: #0F172A !important;
+        border-color: #CBD5E1 !important;
+        border-radius: 12px !important;
+    }
+    /* Dropdown uitklapmenu's */
+    div[data-baseweb="popover"],
+    div[data-baseweb="menu"],
+    ul[role="listbox"],
+    li[role="option"] {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
+    }
+    li[role="option"]:hover, li[role="option"][aria-selected="true"] {
+        background-color: #ECFDF5 !important;
+        color: #065F46 !important;
+        font-weight: 700 !important;
+    }
+    /* Plus en min knoppen bij getallen */
+    button[data-testid="stNumberInputStepUp"],
+    button[data-testid="stNumberInputStepDown"] {
+        background-color: #F1F5F9 !important;
+        color: #0F172A !important;
+    }
+    /* Uitvouwbalken (Expanders) */
+    details[data-testid="stExpander"] {
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #CBD5E1 !important;
+        border-radius: 16px !important;
+        padding: 4px 8px !important;
+    }
+    details[data-testid="stExpander"] summary,
+    details[data-testid="stExpander"] summary p,
+    details[data-testid="stExpander"] summary svg {
+        color: #0F172A !important;
+        fill: #0F172A !important;
+        font-weight: 700 !important;
+    }
+
+    /* 4. Heldere Luxe Hero Card bovenin (Geen donkere achtergrond meer!) */
     .hero-banner {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        background: linear-gradient(135deg, #FFFFFF 0%, #ECFDF5 60%, #FEF3C7 100%);
+        border: 2px solid #6EE7B7;
         border-radius: 24px;
-        padding: 22px 20px;
-        color: #FFFFFF !important;
-        box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.25);
+        padding: 20px 18px;
+        box-shadow: 0 8px 20px -4px rgba(5, 150, 105, 0.12);
         margin-bottom: 14px;
-        position: relative;
-        overflow: hidden;
     }
     .hero-badge {
         display: inline-block;
-        background: rgba(251, 191, 36, 0.18);
-        color: #FCD34D !important;
-        border: 1px solid rgba(251, 191, 36, 0.4);
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        padding: 4px 10px;
+        background: #FEF3C7;
+        color: #92400E !important;
+        border: 1px solid #F59E0B;
+        font-size: 0.75rem;
+        font-weight: 800;
+        padding: 4px 12px;
         border-radius: 999px;
         margin-bottom: 8px;
     }
     .hero-title {
-        font-size: 1.45rem;
+        font-size: 1.4rem;
         font-weight: 800;
-        color: #FFFFFF !important;
+        color: #064E3B !important;
         margin: 0 0 4px 0;
-        line-height: 1.2;
+        line-height: 1.25;
     }
     .hero-sub {
         font-size: 0.85rem;
-        color: #CBD5E1 !important;
-        margin: 0 0 16px 0;
+        color: #334155 !important;
+        font-weight: 600;
+        margin: 0 0 14px 0;
     }
     .hero-amount-row {
         display: flex;
@@ -89,105 +141,106 @@ st.markdown("""
         margin-bottom: 6px;
     }
     .hero-big-amount {
-        font-size: 2rem;
+        font-size: 2.05rem;
         font-weight: 800;
-        color: #34D399 !important;
+        color: #059669 !important;
         line-height: 1;
     }
     .hero-goal-lbl {
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: #94A3B8 !important;
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #334155 !important;
     }
     .custom-prog-bg {
         width: 100%;
-        height: 10px;
-        background: rgba(255, 255, 255, 0.12);
+        height: 12px;
+        background: #E2E8F0;
         border-radius: 999px;
         overflow: hidden;
         margin-bottom: 10px;
+        border: 1px solid #CBD5E1;
     }
     .custom-prog-fill {
         height: 100%;
-        background: linear-gradient(90deg, #10B981 0%, #FBBF24 100%);
+        background: linear-gradient(90deg, #059669 0%, #10B981 60%, #F59E0B 100%);
         border-radius: 999px;
-        transition: width 0.4s ease;
     }
     .hero-footer {
         display: flex;
         justify-content: space-between;
-        font-size: 0.78rem;
-        color: #E2E8F0 !important;
-        font-weight: 600;
+        font-size: 0.8rem;
+        color: #0F172A !important;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 6px 10px;
+        border-radius: 10px;
     }
 
-    /* Bento Grid KPI Kaarten */
+    /* 5. Bento Grid Score Kaarten */
     .bento-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
         margin: 12px 0 16px 0;
     }
     .bento-card {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1.5px solid #CBD5E1;
         border-radius: 18px;
-        padding: 13px 8px;
+        padding: 12px 6px;
         text-align: center;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+        box-shadow: 0 3px 8px rgba(15, 23, 42, 0.04);
     }
     .bento-lbl {
         font-size: 0.68rem;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: #64748B !important;
+        color: #475569 !important;
         margin-bottom: 4px;
     }
     .bento-val-emerald {
-        font-size: 1.28rem;
+        font-size: 1.25rem;
         font-weight: 800;
         color: #059669 !important;
     }
     .bento-val-amber {
-        font-size: 1.28rem;
+        font-size: 1.25rem;
         font-weight: 800;
         color: #D97706 !important;
     }
     .bento-val-rose {
-        font-size: 1.28rem;
+        font-size: 1.25rem;
         font-weight: 800;
         color: #E11D48 !important;
     }
     .bento-sub {
         font-size: 0.7rem;
-        color: #94A3B8 !important;
+        color: #475569 !important;
         font-weight: 600;
         margin-top: 2px;
     }
 
-    /* Stoptober Gezondheidskaarten */
+    /* 6. Gezondheid & Subdoel Kaarten */
     .health-summary-card {
-        background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
-        border: 1px solid #A7F3D0;
+        background: #ECFDF5;
+        border: 2px solid #6EE7B7;
         border-radius: 20px;
         padding: 16px;
         margin-bottom: 14px;
     }
     .health-item {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1.5px solid #CBD5E1;
         border-radius: 18px;
-        padding: 15px 16px;
+        padding: 14px 16px;
         margin-bottom: 10px;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
     }
     .health-item-done {
-        background: #F8FAFC;
-        border: 1px solid #A7F3D0;
-        border-left: 5px solid #10B981;
+        background: #F0FDF4;
+        border: 2px solid #34D399;
+        border-left: 6px solid #059669;
         border-radius: 18px;
-        padding: 15px 16px;
+        padding: 14px 16px;
         margin-bottom: 10px;
     }
     .health-top {
@@ -202,16 +255,16 @@ st.markdown("""
         color: #0F172A !important;
     }
     .health-pct-badge {
-        font-size: 0.75rem;
+        font-size: 0.74rem;
         font-weight: 800;
         padding: 3px 9px;
         border-radius: 999px;
-        background: #ECFDF5;
-        color: #059669 !important;
+        background: #D1FAE5;
+        color: #065F46 !important;
     }
     .health-desc {
         font-size: 0.8rem;
-        color: #475569 !important;
+        color: #334155 !important;
         margin-bottom: 8px;
         line-height: 1.4;
     }
@@ -228,14 +281,13 @@ st.markdown("""
         border-radius: 999px;
     }
 
-    /* Motivatie Flashcard */
+    /* 7. Motivatie Flashcard & Ademhaling */
     .flashcard {
-        background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-        border: 1px solid #FDE68A;
+        background: #FFFBEB;
+        border: 2px solid #F59E0B;
         border-radius: 22px;
-        padding: 24px 20px;
+        padding: 22px 18px;
         margin: 14px 0;
-        box-shadow: 0 8px 20px rgba(217, 119, 6, 0.08);
         text-align: center;
     }
     .flashcard-quote {
@@ -246,19 +298,17 @@ st.markdown("""
         margin: 0;
     }
 
-    /* Ademhalings-cirkel */
     @keyframes breathe-anim {
-        0%, 100% { transform: scale(0.68); background-color: #E0F2FE; border-color: #0284C7; }
+        0%, 100% { transform: scale(0.7); background-color: #E0F2FE; border-color: #0284C7; }
         25% { transform: scale(1.12); background-color: #D1FAE5; border-color: #059669; }
         60% { transform: scale(1.12); background-color: #FEF3C7; border-color: #D97706; }
     }
     .breath-card {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1.5px solid #CBD5E1;
         border-radius: 22px;
-        padding: 28px 16px;
+        padding: 26px 16px;
         text-align: center;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
     }
     .breath-orb {
         width: 130px;
@@ -270,14 +320,14 @@ st.markdown("""
         align-items: center;
         justify-content: center;
         font-weight: 800;
-        font-size: 0.9rem;
+        font-size: 0.92rem;
         color: #0F172A !important;
         animation: breathe-anim 19s infinite ease-in-out;
     }
 
-    /* Navigatie-tabs strak en passend op 1 scherm */
+    /* 8. Tabbladen balk */
     div[data-baseweb="tab-list"] {
-        gap: 2px !important;
+        gap: 3px !important;
         background-color: #E2E8F0 !important;
         padding: 4px !important;
         border-radius: 14px !important;
@@ -285,84 +335,108 @@ st.markdown("""
     button[data-baseweb="tab"] {
         flex: 1 !important;
         font-size: 0.76rem !important;
-        font-weight: 700 !important;
-        padding: 7px 4px !important;
+        font-weight: 800 !important;
+        padding: 8px 4px !important;
         border-radius: 10px !important;
-        color: #475569 !important;
+        color: #334155 !important;
         background-color: transparent !important;
-        border: none !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] {
         background-color: #FFFFFF !important;
-        color: #0F172A !important;
-        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+        color: #059669 !important;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.1) !important;
     }
 
-    /* Knoppen styling */
+    /* 9. Knoppen met gegarandeerd contrast */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+        background: #059669 !important;
         color: #FFFFFF !important;
-        border: none !important;
+        border: 2px solid #047857 !important;
         border-radius: 16px !important;
         font-weight: 800 !important;
         padding: 0.75rem 1rem !important;
-        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25) !important;
     }
-    div.stButton > button[kind="primary"] p, div.stButton > button[kind="primary"] span {
+    div.stButton > button[kind="primary"] *,
+    div.stButton > button[kind="primary"] p,
+    div.stButton > button[kind="primary"] span {
         color: #FFFFFF !important;
     }
     div.stButton > button[kind="secondary"] {
         background-color: #FFFFFF !important;
         color: #0F172A !important;
-        border: 1.5px solid #CBD5E1 !important;
+        border: 2px solid #CBD5E1 !important;
         border-radius: 16px !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         padding: 0.75rem 1rem !important;
+    }
+    div.stButton > button[kind="secondary"] *,
+    div.stButton > button[kind="secondary"] p,
+    div.stButton > button[kind="secondary"] span {
+        color: #0F172A !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- STOPTOBER MEDISCHE MIJLPALEN ---
+# --- SUBDOELEN OP BASIS VAN WEERSTANE SIGARETTEN ---
+CIG_SUBGOALS = [
+    {
+        "target_cigs": 5,
+        "title": "🎯 Subdoel 1: De Eerste 5 Weerstaan",
+        "reward": "+55 min extra levenstijd & 50 mg teer bespaard"
+    },
+    {
+        "target_cigs": 20,
+        "title": "🎯 Subdoel 2: Heel Pakje Uitgespaard (20 stuks)",
+        "reward": "+3,5 uur extra levenstijd & 200 mg teer uit je longen"
+    },
+    {
+        "target_cigs": 50,
+        "title": "🎯 Subdoel 3: Vijftig Keer Sterk Gebleven",
+        "reward": "+9 uur extra levenstijd & een halve gram teer vermeden"
+    },
+    {
+        "target_cigs": 100,
+        "title": "🎯 Subdoel 4: De Mijlpaal van 100 Sigaretten",
+        "reward": "+18 uur extra levenstijd & 1 volle gram teer bespaard!"
+    }
+]
+
+# --- MEDISCHE GEZONDHEIDSVOORDELEN (TIJD ROOKVRIJ) ---
 HEALTH_MILESTONES = [
     {
-        "title": "💓 Bloeddruk & Hartslag normaal",
-        "hours": 0.33,  # 20 minuten
-        "desc": "Je hartslag en bloeddruk dalen direct terug naar hun normale, gezonde rustniveau."
+        "title": "💓 Subdoel 20 min: Hartslag & Bloeddruk rustig",
+        "hours": 0.33,
+        "desc": "Je hartslag en bloeddruk dalen direct terug naar hun normale niveau. Je handen en voeten worden warmer."
     },
     {
-        "title": "🩸 Zuurstofpeil in bloed naar 100%",
+        "title": "🩸 Subdoel 8 uur: Zuurstofpeil naar 100%",
         "hours": 8,
-        "desc": "De hoeveelheid nicotine en koolmonoxide in je bloed is al met de helft gedaald."
+        "desc": "De helft van de nicotine en koolmonoxide is uit je bloed. Je spieren en hersenen krijgen weer volop zuurstof."
     },
     {
-        "title": "🫁 Koolmonoxide volledig uit je lijf",
+        "title": "🫁 Subdoel 24 uur: Koolmonoxide-vrij",
         "hours": 24,
-        "desc": "Na 24 uur is alle koolmonoxide verdwenen. Je longen starten nu met de grote schoonmaak van slijm en teer."
+        "desc": "Na één dag is alle koolmonoxide uit je lichaam verdwenen. Je longen starten met het opruimen van slijm."
     },
     {
-        "title": "🍷 Smaak & Reuk herstellen (Diner-boost!)",
+        "title": "🍷 Subdoel 48 uur: Smaak & Reuk terug (Diner-boost!)",
         "hours": 48,
-        "desc": "Na 2 dagen is alle nicotine uit je lichaam. Je smaak- en reukzenuwen herstellen: goed eten en wijn smaken nu merkbaar rijker!"
+        "desc": "Alle nicotine is uit je lijf. Je smaak- en reukzenuwen herstellen: lekker eten en goede wijn smaken nu veel rijker!"
     },
     {
-        "title": "⚡ Meer lucht & Energie (Bronchiën open)",
+        "title": "⚡ Subdoel 72 uur: Meer lucht & Energie",
         "hours": 72,
         "desc": "Na 3 dagen ontspannen je luchtpijpvertakkingen. Ademhalen gaat makkelijker en je hebt direct meer energie."
     },
     {
-        "title": "🏃‍♂️ Bloedsomloop & Conditie (+15%)",
-        "hours": 336,  # 14 dagen
-        "desc": "Na 2 weken stroomt het bloed veel makkelijker door je spieren en organen. Wandelen en sporten gaan lichter."
+        "title": "🏃‍♂️ Subdoel 2 weken: Betere bloedsomloop & Conditie",
+        "hours": 336,
+        "desc": "Het bloed stroomt veel makkelijker door je hele lichaam. Wandelen, traplopen en sporten gaan merkbaar lichter."
     },
     {
-        "title": "🧹 Trilhaartjes & Longen tot 30% schoner",
-        "hours": 672,  # 28 dagen (Stoptober-doel!)
-        "desc": "Na 4 weken zijn de trilhaartjes in je longen hersteld en is je nuttige longcapaciteit tot wel 30% verbeterd."
-    },
-    {
-        "title": "🛡️ Volledig herstelde longreiniging",
-        "hours": 2160,  # 90 dagen (3 maanden)
-        "desc": "Na 3 maanden zijn je longen grotendeels schoon van oud slijm en werken je luchtwegen weer op volle kracht."
+        "title": "🛡️ Subdoel 1 tot 3 mnd: Tot 30% meer longcapaciteit",
+        "hours": 1440,
+        "desc": "De trilhaartjes in je luchtwegen zijn hersteld en houden je longen schoon. Je longfunctie is tot wel 30% verbeterd."
     }
 ]
 
@@ -375,7 +449,7 @@ DEFAULT_QUOTES = {
         "Dat stemmetje om 20:00 uur is alleen een oude gewoonte. Elke keer dat je blijft zitten, wordt die prikkel zwakker.",
         "Twee avonden niet roken op de bank is alweer een speciaalbier of een goed glas wijn tijdens jullie etentje!"
     ],
-    "🍺 Borrel & Gezelligheid": [
+    "🍷 Borrel & Gezelligheid": [
         "Een goed glas wijn of bier smaakt veel rijker als je smaakpapillen niet verdoofd worden door tabaksrook.",
         "Een sigaret bij een borrel geeft géén extra ontspanning: het vult alleen tijdelijk het onrustgevoel op dat de vorige sigaret heeft achtergelaten.",
         "Niet roken tijdens het drinken scheelt je morgenochtend de helft van je brakheid. Koolmonoxide uit rook versterkt een kater enorm.",
@@ -390,7 +464,7 @@ DEFAULT_QUOTES = {
     ],
     "☀️ Morgenochtend & Gezondheid": [
         "Denk even aan morgenochtend 07:30 uur: niemand wordt ooit wakker met de gedachte 'had ik gisteravond maar wél gerookt'.",
-        "Elke sigaret die je níét rookt, bespaart je longen direct 10 mg teer en levert je 11 minuten extra gezonde levensduur op.",
+        "Elke sigaret die je níét rookt, levert je direct 11 minuten extra gezonde levenstijd op én € 0,65 voor jullie etentje.",
         "Na één rookvrije avond is het zuurstofgehalte in je bloed morgenochtend weer 100% en slaap je vannacht dieper.",
         "Een golf van trek duurt biologisch gezien nooit langer dan 3 tot 8 minuten. Adem rustig uit en laat de golf voorbijrollen."
     ]
@@ -455,7 +529,6 @@ def add_log(user, event_type, count, trigger, note=""):
         "amount_eur": round(int(count) * cig_price, 2),
         "note": note
     })
-    # Als er gerookt is, start de herstelklok voor die persoon opnieuw vanaf nu
     if event_type == "smoked":
         data["settings"]["quit_start"][user] = now_full
     save_data(data)
@@ -480,6 +553,15 @@ def format_duration_nl(hours):
         days = int(hours // 24)
         rem_h = int(hours % 24)
         return f"{days} dagen en {rem_h} uur"
+
+def format_life_gained(cigs_resisted):
+    total_mins = int(cigs_resisted * 11)
+    if total_mins < 60:
+        return f"+{total_mins} min"
+    else:
+        h = total_mins // 60
+        m = total_mins % 60
+        return f"+{h}u {m}m"
 
 def send_push_notification(topic, title_ascii, message_utf8):
     if not topic:
@@ -588,12 +670,12 @@ progress_pct = min(100, int((total_team_saved / goal_target) * 100))
 cigs_left = max(0, int(round((goal_target - total_team_saved) / cig_price)))
 milestone_text = get_dinner_milestone(total_team_saved)
 
-# --- LUXE HERO BANNER (ALTIJD ZICHTBAAR BOVENIN) ---
+# --- HELDERE LUXE HERO BANNER (ALTIJD SCHERP LEESBAAR) ---
 st.markdown(f"""
 <div class="hero-banner">
     <div class="hero-badge">{milestone_text}</div>
     <div class="hero-title">🥂 {data['settings']['goal_name']}</div>
-    <div class="hero-sub">Elke niet-gerookte sigaret = <b>€ {cig_price:.2f}</b> in jullie gezamenlijke diner-pot</div>
+    <div class="hero-sub">Elke niet-gerookte sigaret = <b>€ {cig_price:.2f}</b> voor jullie etentje én <b>+11 min</b> levenstijd</div>
     <div class="hero-amount-row">
         <span class="hero-big-amount">€ {total_team_saved:.2f}</span>
         <span class="hero-goal-lbl">Doel: € {goal_target:.0f} ({progress_pct}%)</span>
@@ -619,9 +701,10 @@ tab_dash, tab_health, tab_borrel, tab_sos, tab_push = st.tabs([
 ])
 
 # ==========================================
-# TAB 1: DINER-POT & 1-KLIK LOGGEN
+# TAB 1: DINER-POT & 1-KLIK LOGGEN (MET +11 MIN LANGER LEVEN)
 # ==========================================
 with tab_dash:
+    life_str = format_life_gained(resisted_cigs)
     st.markdown(f"""
     <div class="bento-grid">
         <div class="bento-card">
@@ -630,9 +713,9 @@ with tab_dash:
             <div class="bento-sub">{resisted_cigs} weerstaan 💪</div>
         </div>
         <div class="bento-card">
-            <div class="bento-lbl">Teer Bespaard</div>
-            <div class="bento-val-amber">{resisted_cigs * 10} mg</div>
-            <div class="bento-sub">Schone longen 🫁</div>
+            <div class="bento-lbl">Langer Leven</div>
+            <div class="bento-val-amber">{life_str}</div>
+            <div class="bento-sub">+11 min / sigaret ❤️</div>
         </div>
         <div class="bento-card">
             <div class="bento-lbl">Gerookt ({active_profile})</div>
@@ -668,7 +751,7 @@ with tab_dash:
     with b1:
         if st.button(f"🔥 Weerstaan (+ € {cigs_count * cig_price:.2f})", type="primary", use_container_width=True):
             add_log(acting_user, "resisted", cigs_count, trigger_choice)
-            st.toast(f"Top {acting_user}! + € {cigs_count * cig_price:.2f} voor jullie etentje!", icon="🥂")
+            st.toast(f"Top {acting_user}! + € {cigs_count * cig_price:.2f} én +{cigs_count * 11} min levenstijd!", icon="🥂")
             time.sleep(0.4)
             st.rerun()
     with b2:
@@ -713,54 +796,70 @@ with tab_dash:
             st.caption("De teller staat op € 0,00 (geen registraties om te wissen).")
 
 # ==========================================
-# TAB 2: STOPTOBER GEZONDHEIDSHERSTEL (NIEUW!)
+# TAB 2: GEZONDHEIDSVOORDELEN & SUBDOELEN
 # ==========================================
 with tab_health:
     health_user = "Maarten" if active_profile == "Samen" else active_profile
     if active_profile == "Samen":
-        health_user = st.radio("Bekijk lichaamsherstel van:", ["Maarten", "Laura"], horizontal=True)
+        health_user = st.radio("Bekijk gezondheid & subdoelen van:", ["Maarten", "Laura"], horizontal=True)
 
     hours_free = get_hours_smoke_free(health_user)
     user_resisted, _, _, _, _ = get_user_stats(data["logs"], health_user)
     
-    # Bereken fysieke metrics (gebaseerd op Stoptober / Trimbos cijfers)
-    tar_avoided_mg = user_resisted * 10          # ~10 mg teer per sigaret
-    co_avoided_mg = user_resisted * 12           # ~12 mg koolmonoxide per sigaret
-    minutes_gained = user_resisted * 11          # +11 min levensverwachting per sigaret
-    lung_clean_pct = min(100, int((hours_free / 672.0) * 100))  # 28 dagen = 100% Stoptober mijlpaal
+    tar_avoided_mg = user_resisted * 10
+    co_avoided_mg = user_resisted * 12
+    life_gained_txt = format_life_gained(user_resisted)
 
     st.markdown(f"""
     <div class="health-summary-card">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:800; font-size:1.05rem; color:#065F46;">🫁 Herstel van {health_user}</span>
+            <span style="font-weight:800; font-size:1.05rem; color:#064E3B;">❤️ Gezondheidswinst ({health_user})</span>
             <span style="font-weight:800; font-size:0.85rem; color:#047857;">⏱️ {format_duration_nl(hours_free)} rookvrij</span>
         </div>
         <p style="font-size:0.82rem; color:#065F46; margin:6px 0 0 0;">
-            Stoptober Long-Schoonmaak (28-dagen cyclus): <b>{lung_clean_pct}%</b> voltooid
+            Elke sigaret die je overslaat telt direct mee voor je lichaam én je subdoelen hieronder.
         </p>
     </div>
 
     <div class="bento-grid">
         <div class="bento-card">
-            <div class="bento-lbl">Teer Vermeden</div>
-            <div class="bento-val-emerald">{tar_avoided_mg} mg</div>
-            <div class="bento-sub">Schone luchtwegen</div>
+            <div class="bento-lbl">Langer Leven</div>
+            <div class="bento-val-emerald">{life_gained_txt}</div>
+            <div class="bento-sub">+11 min / stuk</div>
+        </div>
+        <div class="bento-card">
+            <div class="bento-lbl">Teer Bespaard</div>
+            <div class="bento-val-amber">{tar_avoided_mg} mg</div>
+            <div class="bento-sub">Schone longen</div>
         </div>
         <div class="bento-card">
             <div class="bento-lbl">Koolmonoxide</div>
-            <div class="bento-val-amber">-{co_avoided_mg} mg</div>
-            <div class="bento-sub">100% zuurstof</div>
-        </div>
-        <div class="bento-card">
-            <div class="bento-lbl">Extra Levenstijd</div>
-            <div class="bento-val-emerald">+{minutes_gained} m</div>
-            <div class="bento-sub">11 min / sigaret</div>
+            <div class="bento-val-emerald">-{co_avoided_mg} mg</div>
+            <div class="bento-sub">Meer zuurstof</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("##### 📊 Live Medische Mijlpalen (Stoptober)")
+    st.markdown("##### 🏆 Subdoelen: Aantal Weerstane Sigaretten")
+    for sg in CIG_SUBGOALS:
+        pct_sg = min(100, int((user_resisted / sg["target_cigs"]) * 100))
+        done_sg = pct_sg >= 100
+        cls_sg = "health-item-done" if done_sg else "health-item"
+        badge_sg = "✅ Behaald!" if done_sg else f"{user_resisted} / {sg['target_cigs']} stuks ({pct_sg}%)"
+        st.markdown(f"""
+        <div class="{cls_sg}">
+            <div class="health-top">
+                <span class="health-title">{sg['title']}</span>
+                <span class="health-pct-badge">{badge_sg}</span>
+            </div>
+            <div class="health-desc">{sg['reward']}</div>
+            <div class="health-bar-bg">
+                <div class="health-bar-fill" style="width: {pct_sg}%;"></div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
+    st.markdown("##### 🫁 Lichaamsherstel Subdoelen (Sinds laatste sigaret)")
     for m in HEALTH_MILESTONES:
         pct = min(100, int((hours_free / m["hours"]) * 100))
         is_done = pct >= 100
@@ -781,7 +880,7 @@ with tab_health:
         """, unsafe_allow_html=True)
 
     with st.expander(f"⏱️ Pas rookvrije starttijd aan voor {health_user}"):
-        st.caption("Wanneer heb je voor het laatst gerookt? Pas het hier aan zodat je percentages precies kloppen.")
+        st.caption("Wanneer heb je voor het laatst gerookt? Pas het hier aan zodat je herstel-subdoelen kloppen.")
         preset = st.selectbox(
             "Snel instellen:",
             [
@@ -820,7 +919,7 @@ with tab_health:
 with tab_borrel:
     borrel_user = "Maarten" if active_profile == "Samen" else active_profile
     st.subheader(f"🍷 Borrel-Modus ({borrel_user})")
-    st.caption("Wel genieten van een goed glas wijn of bier, zonder dat je brein automatisch om nicotine vraagt.")
+    st.write("Wel genieten van een goed glas wijn of bier, zonder dat je brein automatisch om nicotine vraagt.")
 
     today_str = date.today().strftime("%Y-%m-%d")
     u_commit = data["borrel_commit"].get(borrel_user, {"active": False, "date": "", "max_drinks": 3, "note": ""})
@@ -858,7 +957,7 @@ with tab_borrel:
 
     st.divider()
     st.markdown("##### ⏱️ De 5-Minuten Afkoel-Klok")
-    st.caption("Krijg je tijdens het borrelen ineens trek? Spreek af: ik beslis pas als deze klok op 00:00 staat.")
+    st.write("Krijg je tijdens het borrelen ineens trek? Spreek af: ik beslis pas als deze klok op 00:00 staat.")
     wait_m = st.radio("Afkoeltijd:", [3, 5, 10], index=1, horizontal=True, format_func=lambda x: f"{x} min")
     if st.button(f"🚨 Start {wait_m}-Minuten Klok", type="secondary", use_container_width=True):
         t_box = st.empty()
@@ -923,7 +1022,7 @@ with tab_sos:
     st.markdown("""
     <div class="breath-card">
         <div class="breath-orb">Adem rustig<br>mee</div>
-        <p style="font-size:0.82rem; color:#475569; margin-top:12px; margin-bottom:0;">
+        <p style="font-size:0.84rem; color:#0F172A; margin-top:12px; margin-bottom:0;">
             <b>Groter</b> = 4s Inademen &nbsp;•&nbsp; <b>Geel</b> = 7s Vasthouden &nbsp;•&nbsp; <b>Kleiner</b> = 8s Uitblazen
         </p>
     </div>
