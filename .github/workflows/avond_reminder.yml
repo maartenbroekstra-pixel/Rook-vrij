@@ -1,18 +1,32 @@
 name: 20u Rookvrij Reminder
+
 on:
   schedule:
-    # 17:55 UTC is 19:55 Nederlandse zomertijd (pas aan naar 18:55 in de wintertijd)
+    # 17:55 UTC = 19:55 Nederlandse zomertijd (18:55 in de wintertijd)
     - cron: '55 17 * * *'
+    - cron: '55 18 * * *'
   workflow_dispatch:
 
 jobs:
   push_message:
     runs-on: ubuntu-latest
     steps:
-      - name: Stuur 20u Bank-Trigger Melding
+      - name: Stuur 20u Melding naar Rookvrij-alerts
         run: |
-          curl -H "Title: 🛋️ 20:00 Avond-anker" \
-               -H "Priority: high" \
-               -H "Tags: shield,no_smoking" \
-               -d "Kinderen op bed? Je hoeft niet te roken! Morgen ben je blij als je het niet hebt gedaan!" \
-               https://ntfy.sh/Rookvrij-alerts
+          curl -X POST https://ntfy.sh \
+            -H "Content-Type: application/json" \
+            -d '{
+              "topic": "Rookvrij-alerts",
+              "title": "20:00 Avond Check-in: Maarten & Laura",
+              "message": "🥂 Kinderen op bed? Loop eerst naar de keuken voor wat lekkers te drinken, plof op de bank ZONDER sigaret en zet + € 0,65 in jullie Diner-Pot!",
+              "priority": 5,
+              "tags": ["clinking_glasses", "no_smoking"],
+              "click": "https://vzzaqgdm.streamlit.app",
+              "actions": [
+                {
+                  "action": "view",
+                  "label": "Open Diner-Pot (+ € 0,65)",
+                  "url": "https://vzzaqgdm.streamlit.app"
+                }
+              ]
+            }'
