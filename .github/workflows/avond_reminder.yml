@@ -14,5 +14,5 @@ jobs:
           curl -H "Title: 🛋️ 20:00 Avond-anker" \
                -H "Priority: high" \
                -H "Tags: shield,no_smoking" \
-               -d "Kinderen op bed? Doorbreek de automatische piloot: loop eerst naar de keuken voor wat te drinken en houd je streak vast!" \
-               https://ntfy.sh/JOUW_GEHEIME_KANAALNAAM
+               -d "Kinderen op bed? Je hoeft niet te roken! Morgen ben je blij als je het niet hebt gedaan!" \
+               https://ntfy.sh/Rookvrij-alerts
